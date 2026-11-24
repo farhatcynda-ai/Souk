@@ -64,7 +64,7 @@ label{display:block;font-weight:600;margin:4px 0}
   <input id="catOther" placeholder="Écris ta catégorie" maxlength="30" hidden>
   <label for="price">Ton prix (DT)</label><input id="price" type="number" min="1" step="any" inputmode="decimal" required>
   <label for="seller">Ton prénom</label><input id="seller" maxlength="40" required>
-  <label for="phone">Téléphone (facultatif)</label><input id="phone" type="tel" maxlength="20">
+  <label for="phone">Téléphone (8 chiffres)</label><input id="phone" type="tel" inputmode="numeric" maxlength="8" pattern="[0-9]{8}" title="8 chiffres" required>
   <label for="code">Code secret pour supprimer l’annonce</label><input id="code" maxlength="20" required>
   <button class="send" type="submit">Publier</button> <button class="link" type="button" id="cancel">Annuler</button>
   <div id="msg" role="status"></div>
@@ -124,6 +124,7 @@ function show(){
 async function load(){try{all=await api("/api/items");show()}
  catch(e){$("#grid").replaceChildren(h("p",{className:"empty",textContent:"Impossible de charger les annonces. Vérifie que le serveur tourne."}))}}
 
+$("#phone").oninput=e=>e.target.value=e.target.value.replace(/\D/g,"").slice(0,8);
 ["#q","#max","#sort"].forEach(s=>$(s).oninput=show);
 $("#open").onclick=()=>$("#dlg").showModal();
 $("#cancel").onclick=()=>$("#dlg").close();
